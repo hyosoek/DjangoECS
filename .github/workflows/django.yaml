@@ -30,12 +30,18 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: DockerHub Upload
-        env:
-          NAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          REPO: djangoecs
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          docker build -t $REPO .
-          docker tag $REPO:latest $NAME/$REPO:$IMAGE_TAG
-          docker push $NAME/$REPO:$IMAGE_TAG
+      #   - name: DockerHub Upload
+      #     env:
+      #       NAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      #       REPO: djangoecs
+      #       IMAGE_TAG: ${{ github.sha }}
+      #     run: |
+      #       docker build -t $REPO .
+      #       docker tag $REPO:latest $NAME/$REPO:$IMAGE_TAG
+      #       docker push $NAME/$REPO:$IMAGE_TAG
+      - name: AWS Role을 이용한 로그인
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+        role-to-assume: arn:aws:iam::381492314104:role/djangoecsrole
+        role-session-name: sampleSessionName
+        aws-region: ap-northeast-2
