@@ -29,3 +29,11 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build Docker Image
+        run: |
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/dockerecs:latest .
+
+    - name: Push Docker Image
+        run: |
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/dockerecs:latest
